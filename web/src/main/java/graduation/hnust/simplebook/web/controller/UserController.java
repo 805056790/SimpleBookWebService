@@ -91,6 +91,7 @@ public class UserController {
         model.setSmsType(SmsModel.SMS_TYPE);
         model.setSmsFreeSignName(SmsModel.SIGN_REGISTER);
         model.setRecNum("18673231309");
+        model.setSmsParam("{\"code\":\"123654\", \"product\":\"hello SimpleBook\"}");
         model.setSmsTemplateCode(SmsModel.TEMPLATE_REGISTER);
 
         Response<Boolean> resp = smsService.sendSms(mobile, model);
