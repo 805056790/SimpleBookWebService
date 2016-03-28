@@ -90,7 +90,7 @@ public class UserController {
         model.setExtend("123456");
         model.setSmsType(SmsModel.SMS_TYPE);
         model.setSmsFreeSignName(SmsModel.SIGN_REGISTER);
-        model.setRecNum("186732321309");
+        model.setRecNum("18673231309");
         model.setSmsTemplateCode(SmsModel.TEMPLATE_REGISTER);
 
         Response<Boolean> resp = smsService.sendSms(mobile, model);
