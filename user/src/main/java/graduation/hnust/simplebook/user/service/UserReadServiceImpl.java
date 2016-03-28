@@ -25,7 +25,7 @@ public class UserReadServiceImpl implements UserReadService{
 
     @Override
     public User findById(Long id) {
-        return userDao.findById(id);
+        return null;
     }
 
     @Override
