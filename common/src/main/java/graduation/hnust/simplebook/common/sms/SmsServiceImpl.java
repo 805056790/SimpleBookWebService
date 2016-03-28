@@ -27,15 +27,15 @@ public class SmsServiceImpl implements SmsService {
     public Response<Boolean> sendSms(String mobile, SmsModel model) {
         String result = null;
         //JSONObject object = null;
-        JsonMapper mapper = JsonMapper.JSON_NON_DEFAULT_MAPPER;
+        //JsonMapper mapper = JsonMapper.JSON_NON_DEFAULT_MAPPER;
         try {
             result = doSendSms(mobile, model);
-            boolean success = mapper.toJson(result).contains("alibaba_aliqin_fc_sms_num_send_response");
+            //boolean success = mapper.toJson(result).contains("alibaba_aliqin_fc_sms_num_send_response");
 
 
             //object = JsonObject
 
-            String code = model.getSmsParamMap().get("code");
+            //String code = model.getSmsParamMap().get("code");
 
         } catch (ApiException e) {
             log.error("failed to send sms error code = {}, msg = {} ", e.getErrCode(), e.getErrMsg());
