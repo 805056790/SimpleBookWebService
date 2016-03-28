@@ -31,9 +31,35 @@
             <version>1.3.2.RELEASE</version>
         </dependency>
 
+        <!-- simple book -->
         <dependency>
             <groupId>graduation.hnust.simplebook</groupId>
             <artifactId>simplebook-web-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>graduation.hnust.simplebook</groupId>
+            <artifactId>simplebook-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>graduation.hnust.simplebook</groupId>
+            <artifactId>simplebook-user-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>graduation.hnust.simplebook</groupId>
+            <artifactId>simplebook-user</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>graduation.hnust.simplebook</groupId>
+            <artifactId>simplebook-book-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>graduation.hnust.simplebook</groupId>
+            <artifactId>simplebook-book</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

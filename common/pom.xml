@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>graduation-hunst-simplebook</artifactId>
+        <groupId>graduation.hnust.simplebook</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>simplebook-common</artifactId>
+
+    <dependencies>
+        <!-- redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>1.6.2.RELEASE</version>
+        </dependency>
+
+        <!-- 阿里大鱼 -->
+        <dependency>
+            <groupId>taobao.sms</groupId>
+            <artifactId>taobao-sms-dayu</artifactId>
+            <version>1.0.RELEASE</version>
+        </dependency>
+
+        <!-- terminus -->
+        <dependency>
+            <groupId>io.terminus</groupId>
+            <artifactId>terminus-common</artifactId>
+            <version>2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

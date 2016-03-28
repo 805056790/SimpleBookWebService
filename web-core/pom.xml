@@ -13,26 +13,7 @@
 
     <dependencies>
         <!-- simplebook -->
-        <dependency>
-            <groupId>graduation.hnust.simplebook</groupId>
-            <artifactId>simplebook-user-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>graduation.hnust.simplebook</groupId>
-            <artifactId>simplebook-user</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>graduation.hnust.simplebook</groupId>
-            <artifactId>simplebook-book-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>graduation.hnust.simplebook</groupId>
-            <artifactId>simplebook-book</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
 

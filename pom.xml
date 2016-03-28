@@ -15,6 +15,7 @@
         <module>user</module>
         <module>book-api</module>
         <module>book</module>
+        <module>common</module>
     </modules>
 
     <parent>
