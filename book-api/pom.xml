@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>simplebook-book-api</artifactId>
+    <artifactId>book-api</artifactId>
 
 
 </project>

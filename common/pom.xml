@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>simplebook-common</artifactId>
+    <artifactId>common</artifactId>
 
     <dependencies>
         <!-- redis -->
