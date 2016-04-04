@@ -84,9 +84,9 @@ public class UserController {
 
         // 生成验证码
         Map<String, String> paramMap = Maps.newHashMap();
-        String code = String.valueOf((int)((Math.random()*9+1)*100000));
+        String code = String.valueOf((int)((Math.random()*9+1)*1000));
         paramMap.put("code", code);
-        paramMap.put("product", "SimpleBook(简单记账App:http://www.simplebook.cn)");
+        paramMap.put("product", "SimpleBook(简单记账App:http://simplebook.github.io)");
         String smsParam = mapper.toJson(paramMap);
 
         // 设置短信模板
