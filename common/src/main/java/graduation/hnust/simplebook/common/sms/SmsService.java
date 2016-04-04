@@ -17,11 +17,10 @@ public interface SmsService {
     /**
      * 发送短信
      *
-     * @param mobile 手机号
      * @param model 短信模板
      * @return 是否发送成功
      */
-    Response<Boolean> sendSms(String mobile, SmsModel model);
+    Response<Boolean> sendSms(SmsModel model);
 
     /**
      * 短信验证码校验

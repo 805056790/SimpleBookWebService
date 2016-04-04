@@ -5,6 +5,7 @@
 package graduation.hnust.simplebook.web.controller;
 
 import com.google.common.collect.Maps;
+import graduation.hnust.simplebook.common.common.JsonMapper;
 import graduation.hnust.simplebook.common.sms.SmsModel;
 import graduation.hnust.simplebook.common.sms.SmsService;
 import graduation.hnust.simplebook.user.model.User;
@@ -36,6 +37,8 @@ public class UserController {
     private final SmsService smsService;
     private final UserReadService userReadService;
 
+    private JsonMapper mapper = JsonMapper.nonEmptyMapper();
+
     @Autowired
     public UserController(SmsService smsService, UserReadService userReadService) {
         this.smsService = smsService;
@@ -65,7 +68,7 @@ public class UserController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public User login(@RequestParam(value = "userName") String userName,
                       @RequestParam(value = "password") String password,
-                      @RequestParam(value = "loginBy") String loginBy) {
+                      @RequestParam(value = "loginBy") Integer loginBy) {
         return null;
     }
 
@@ -82,19 +85,21 @@ public class UserController {
         // 生成验证码
         Map<String, String> paramMap = Maps.newHashMap();
         String code = String.valueOf((int)((Math.random()*9+1)*100000));
+        paramMap.put("code", code);
+        paramMap.put("product", "SimpleBook(简单记账App:http://www.simplebook.cn)");
+        String smsParam = mapper.toJson(paramMap);
 
         // 设置短信模板
         SmsModel model = new SmsModel();
-        paramMap.put("code", code);
-        paramMap.put("product", "SimpleBook(简单记账App:http://www.simplebook.cn)");
         model.setExtend("123456");
         model.setSmsType(SmsModel.SMS_TYPE);
         model.setSmsFreeSignName(SmsModel.SIGN_REGISTER);
-        model.setRecNum("18673231309");
-        model.setSmsParam("{\"code\":\"123654\", \"product\":\"hello SimpleBook\"}");
+        model.setRecNum(mobile);
+        model.setSmsParam(smsParam);
         model.setSmsTemplateCode(SmsModel.TEMPLATE_REGISTER);
 
-        Response<Boolean> resp = smsService.sendSms(mobile, model);
+        // 发送短信
+        Response<Boolean> resp = smsService.sendSms(model);
         if (!resp.isSuccess()) {
             log.error("failed to send sms, mobile = {}", mobile);
             return Boolean.FALSE;
@@ -108,8 +113,18 @@ public class UserController {
      * @param smsCode 验证码
      * @return 是否验证成功
      */
-    public Boolean verifySmsCode(@RequestParam(value = "smsCode") String smsCode) {
-        return false;
+    @RequestMapping(value = "/verify")
+    public Boolean verifySmsCode(@RequestParam(value = "smsCode") String smsCode,
+                                 @RequestParam(value = "mobile") String mobile) {
+        checkArgument(notEmpty(smsCode), "smsCode.empty");
+        checkArgument(notEmpty(mobile), "mobile.empty");
+
+        Response<Boolean> resp = smsService.smsVerify(smsCode, mobile);
+        if (!resp.isSuccess()) {
+            log.error("sms code not match code = {}, mobile = {}", smsCode, mobile);
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 
 }

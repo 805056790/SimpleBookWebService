@@ -4,25 +4,34 @@
 
 package graduation.hnust.simplebook.web;
 
-import graduation.hnust.simplebook.user.model.User;
-import io.terminus.common.model.Response;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 
 /**
  * Author  : panxin
  * Date    : 8:20 PM 3/26/16
  */
-@RestController
 @ComponentScan({"graduation.hnust.simplebook"})
 @SpringBootApplication
 public class ApplicationWebStarter {
+
+    //@Autowired
+    private StringRedisTemplate template;
 
     public static void main(String[] args) {
         SpringApplication.run(ApplicationWebStarter.class, args);
     }
 
+    //@Override
+    public void xxx(String... strings) throws Exception {
+        ValueOperations<String, String> ops = template.opsForValue();
+        String key = "redis.test";
+        if (!template.hasKey(key)) {
+            ops.set(key, "foo");
+        }
+        System.out.println("Found key = "+key+ ", value = " +ops.get(key));
+    }
 }

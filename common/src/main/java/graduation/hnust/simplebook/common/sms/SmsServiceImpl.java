@@ -10,8 +10,9 @@ import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 import io.terminus.common.model.Response;
-import io.terminus.common.utils.JsonMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 
@@ -24,24 +25,33 @@ import org.springframework.stereotype.Service;
 public class SmsServiceImpl implements SmsService {
 
     @Override
-    public Response<Boolean> sendSms(String mobile, SmsModel model) {
-        String result = null;
-        //JSONObject object = null;
-        //JsonMapper mapper = JsonMapper.JSON_NON_DEFAULT_MAPPER;
+    public Response<Boolean> sendSms(SmsModel model) {
+        String respMsg = null;
         try {
-            result = doSendSms(mobile, model);
-            //boolean success = mapper.toJson(result).contains("alibaba_aliqin_fc_sms_num_send_response");
+            respMsg = doSendSms(model);
 
+            // 解析发送短信返回的消息
+            JSONObject object = new JSONObject(respMsg);
+            object = (JSONObject) object.get(SmsResponse.RESPONSE_OK);
+            object = (JSONObject) object.get(SmsResponse.RESPONSE_OK_RESULT);
+            Boolean result = object.getBoolean(SmsResponse.RESPONSE_OK_RESULT_SUCCESS);
 
-            //object = JsonObject
-
-            //String code = model.getSmsParamMap().get("code");
-
+            if (!result) {
+                log.error("failed to send sms, mobile = {}", model.getRecNum());
+                Response.ok(Boolean.FALSE);
+            }
+            // TODO 验证码缓存redis
+            return Response.ok(Boolean.TRUE);
         } catch (ApiException e) {
             log.error("failed to send sms error code = {}, msg = {} ", e.getErrCode(), e.getErrMsg());
             return Response.ok(Boolean.FALSE);
+        } catch (JSONException e) {
+            log.error("failed to send sms error cause ({}) ", e.getCause());
+            return Response.ok(Boolean.FALSE);
+        } catch (Exception e) {
+            log.error("failed to send sms error cause ({}) ", e.getCause());
+            return Response.ok(Boolean.FALSE);
         }
-        return Response.ok(Boolean.TRUE);
     }
 
     @Override
@@ -52,11 +62,10 @@ public class SmsServiceImpl implements SmsService {
     /**
      * 发送短信
      *
-     * @param mobile 手机号
      * @param model 短信模板
      * @return 发送结果
      */
-    private String doSendSms(String mobile, SmsModel model) throws ApiException {
+    private String doSendSms(SmsModel model) throws ApiException {
         TaobaoClient client = new DefaultTaobaoClient(SmsModel.SMS_HTTP_URL, SmsModel.KEY, SmsModel.SECRET);
         AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
         req.setExtend(model.getExtend());
@@ -68,4 +77,5 @@ public class SmsServiceImpl implements SmsService {
         AlibabaAliqinFcSmsNumSendResponse response = client.execute(req);
         return response.getBody();
     }
+
 }
