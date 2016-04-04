@@ -78,7 +78,7 @@ public class UserController {
      * @param mobile 手机号
      * @return 是否发送成功
      */
-    @RequestMapping(value = "/send_sms", method = RequestMethod.GET)
+    @RequestMapping(value = "/send_sms", method = RequestMethod.POST)
     public Boolean sendSms(@RequestParam(value = "mobile") String mobile) {
         checkArgument(notEmpty(mobile), "mobile.empty");
 
