@@ -18,8 +18,6 @@ import org.springframework.data.redis.core.ValueOperations;
 @ComponentScan({"graduation.hnust.simplebook"})
 public class WebApplication {
 
-    private StringRedisTemplate template;
-
     /**
      * To start spring boot application
      *
@@ -29,12 +27,4 @@ public class WebApplication {
         SpringApplication.run(WebApplication.class, args);
     }
 
-    public void xxx(String... strings) throws Exception {
-        ValueOperations<String, String> ops = template.opsForValue();
-        String key = "redis.test";
-        if (!template.hasKey(key)) {
-            ops.set(key, "foo");
-        }
-        System.out.println("Found key = "+key+ ", value = " +ops.get(key));
-    }
 }

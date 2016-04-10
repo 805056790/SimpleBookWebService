@@ -4,6 +4,8 @@
 
 package graduation.hnust.simplebook.common.cache;
 
+import io.terminus.common.redis.utils.JedisTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -17,12 +19,11 @@ import redis.clients.jedis.Jedis;
  */
 public class RedisCache {
 
+    private StringRedisTemplate template;
 
-    private static StringRedisTemplate template;
+    JedisTemplate jedisTemplate;
 
-
-    public static void main123(String[] args) {
-        template = new StringRedisTemplate();
+    public void cache() throws Exception {
         ValueOperations<String, String> ops = template.opsForValue();
         String key = "redis.test";
         if (!template.hasKey(key)) {
