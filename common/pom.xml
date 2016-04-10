@@ -30,13 +30,6 @@
             <version>1.0.RELEASE</version>
         </dependency>
 
-        <!-- terminus -->
-        <dependency>
-            <groupId>io.terminus</groupId>
-            <artifactId>terminus-common</artifactId>
-            <version>2.0.RELEASE</version>
-        </dependency>
-
         <!-- jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

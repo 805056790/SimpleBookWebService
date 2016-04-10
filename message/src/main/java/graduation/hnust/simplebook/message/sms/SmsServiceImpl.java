@@ -2,14 +2,14 @@
  * Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
  */
 
-package graduation.hnust.simplebook.common.sms;
+package graduation.hnust.simplebook.message.sms;
 
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
-import io.terminus.common.model.Response;
+import io.terminus.pampas.common.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;

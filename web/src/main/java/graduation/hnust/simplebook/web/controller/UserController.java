@@ -5,13 +5,13 @@
 package graduation.hnust.simplebook.web.controller;
 
 import com.google.common.collect.Maps;
-import graduation.hnust.simplebook.common.common.JsonMapper;
-import graduation.hnust.simplebook.common.sms.SmsModel;
-import graduation.hnust.simplebook.common.sms.SmsService;
+import graduation.hnust.simplebook.common.core.JsonMapper;
+import graduation.hnust.simplebook.message.sms.SmsModel;
+import graduation.hnust.simplebook.message.sms.SmsService;
+import graduation.hnust.simplebook.user.enums.LoginType;
 import graduation.hnust.simplebook.user.model.User;
 import graduation.hnust.simplebook.user.service.UserReadService;
-import graduation.hnust.simplebook.user.service.UserWriteService;
-import io.terminus.common.model.Response;
+import io.terminus.pampas.common.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +55,26 @@ public class UserController {
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public Long register(String mobile, String password) {
         return null;
+    }
+
+    /**
+     * 检测用户是否已存在
+     *
+     * @param loginType 登录类型
+     * @param loginBy 登录账号
+     * @return 是否已存在, 已存在: true, 不存在: false
+     */
+    @RequestMapping(value = "/exists", method = RequestMethod.GET)
+    public Boolean userExists(@RequestParam(value = "loginType") Integer loginType,
+                              @RequestParam(value = "loginBy") String loginBy) {
+        checkArgument(notEmpty(loginBy), "login.by.empty");
+
+        Response<User> resp = userReadService.findBy(LoginType.from(loginType), loginBy);
+        if (resp.isSuccess()) {
+            log.warn("user already exists. loginType = {}, loginBy = {}", loginType, loginBy);
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 
     /**
@@ -125,6 +145,19 @@ public class UserController {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
+    }
+
+
+    //   the following is for test.
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test(){
+        return "hello";
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public User test2(){
+        return userReadService.findById(1L).getResult();
     }
 
 }

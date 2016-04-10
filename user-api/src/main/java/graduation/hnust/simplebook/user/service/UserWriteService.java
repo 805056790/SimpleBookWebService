@@ -2,6 +2,7 @@ package graduation.hnust.simplebook.user.service;
 
 
 import graduation.hnust.simplebook.user.model.User;
+import io.terminus.pampas.common.Response;
 
 /**
  * 用户信息写服务
@@ -18,7 +19,7 @@ public interface UserWriteService {
      * @param user 用户信息
      * @return 用户ID
      */
-    Long create(User user);
+    Response<Long> create(User user);
 
     /**
      * 更新用户信息
@@ -26,7 +27,7 @@ public interface UserWriteService {
      * @param user 用户信息
      * @return
      */
-    Boolean update(User user);
+    Response<Boolean> update(User user);
 
     /**
      * 删除用户信息
@@ -34,6 +35,6 @@ public interface UserWriteService {
      * @param id 用户ID
      * @return
      */
-    Boolean deleteById(Long id);
+    Response<Boolean> deleteById(Long id);
 
 }

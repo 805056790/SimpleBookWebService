@@ -6,6 +6,7 @@ package graduation.hnust.simplebook.user.service;
 
 import graduation.hnust.simplebook.user.dao.UserDao;
 import graduation.hnust.simplebook.user.model.User;
+import io.terminus.pampas.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,25 +17,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserWriteServiceImpl implements UserWriteService {
 
+    @Autowired
     private UserDao userDao;
 
     @Autowired
-    public UserWriteServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    public UserWriteServiceImpl(UserDao userMapper) {
+        this.userDao = userMapper;
     }
 
     @Override
-    public Long create(User user) {
+    public Response<Long> create(User user) {
         return null;
     }
 
     @Override
-    public Boolean update(User user) {
+    public Response<Boolean> update(User user) {
         return null;
     }
 
     @Override
-    public Boolean deleteById(Long id) {
+    public Response<Boolean> deleteById(Long id) {
         return null;
     }
 }

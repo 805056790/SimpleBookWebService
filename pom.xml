@@ -16,6 +16,7 @@
         <module>book-api</module>
         <module>book</module>
         <module>common</module>
+        <module>message</module>
     </modules>
 
     <parent>
@@ -25,6 +26,7 @@
     </parent>
 
     <dependencies>
+        <!-- spring boot mybatis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
@@ -35,19 +37,41 @@
             <version>3.3.1</version>
         </dependency>
         <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>1.2.4</version>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>1.0.0</version>
         </dependency>
+
+        <!-- google -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>19.0</version>
         </dependency>
+
+        <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.14.8</version>
+        </dependency>
+
+        <!-- terminus -->
+        <dependency>
+            <groupId>io.terminus</groupId>
+            <artifactId>terminus-common</artifactId>
+            <version>2.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>io.terminus.pampas</groupId>
+            <artifactId>pampas-common</artifactId>
+            <version>2.7.RELEASE</version>
+        </dependency>
+
+        <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 

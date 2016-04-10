@@ -14,18 +14,16 @@ import org.springframework.data.redis.core.ValueOperations;
  * Author  : panxin
  * Date    : 8:20 PM 3/26/16
  */
-@ComponentScan({"graduation.hnust.simplebook"})
 @SpringBootApplication
-public class ApplicationWebStarter {
+@ComponentScan({"graduation.hnust.simplebook"})
+public class WebApplication {
 
-    //@Autowired
     private StringRedisTemplate template;
 
     public static void main(String[] args) {
-        SpringApplication.run(ApplicationWebStarter.class, args);
+        SpringApplication.run(WebApplication.class, args);
     }
 
-    //@Override
     public void xxx(String... strings) throws Exception {
         ValueOperations<String, String> ops = template.opsForValue();
         String key = "redis.test";

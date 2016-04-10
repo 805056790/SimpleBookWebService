@@ -2,7 +2,7 @@
  * Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
  */
 
-package graduation.hnust.simplebook.common.common;
+package graduation.hnust.simplebook.common.core;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
