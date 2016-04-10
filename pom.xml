@@ -17,6 +17,7 @@
         <module>book</module>
         <module>common</module>
         <module>message</module>
+        <module>admin</module>
     </modules>
 
     <parent>
