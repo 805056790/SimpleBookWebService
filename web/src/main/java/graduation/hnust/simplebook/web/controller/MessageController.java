@@ -80,7 +80,7 @@ public class MessageController {
      * @param smsCode 验证码
      * @return 是否验证成功
      */
-    @RequestMapping(value = "/verify")
+    @RequestMapping(value = "/verify_sms", method = RequestMethod.POST)
     public Boolean verifySmsCode(@RequestParam(value = "smsCode") String smsCode,
                                  @RequestParam(value = "mobile") String mobile) {
         checkArgument(notEmpty(smsCode), "smsCode.empty");

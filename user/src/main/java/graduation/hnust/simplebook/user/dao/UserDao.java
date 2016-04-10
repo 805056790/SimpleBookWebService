@@ -5,6 +5,7 @@
 package graduation.hnust.simplebook.user.dao;
 
 
+import graduation.hnust.simplebook.common.core.MyBatisBaseDao;
 import graduation.hnust.simplebook.user.model.User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * Date    : 9:40 PM 3/26/16
  */
 @Repository
-public class UserDao extends BaseDao<User> {
+public class UserDao extends MyBatisBaseDao<User> {
 
     /**
      * 通过手机查找
@@ -22,7 +23,6 @@ public class UserDao extends BaseDao<User> {
      * @return 用户信息
      */
     public User findByMobile(String loginBy) {
-        System.out.println("find by Mobile"+getSqlSession().toString());
         return null;
     }
 

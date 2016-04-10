@@ -20,6 +20,11 @@ public class WebApplication {
 
     private StringRedisTemplate template;
 
+    /**
+     * To start spring boot application
+     *
+     * @param args args
+     */
     public static void main(String[] args) {
         SpringApplication.run(WebApplication.class, args);
     }
