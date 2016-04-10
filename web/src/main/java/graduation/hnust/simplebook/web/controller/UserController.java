@@ -33,15 +33,10 @@ import static io.terminus.common.utils.Arguments.notEmpty;
 @RequestMapping("/api/user")
 public class UserController {
 
-
-    private final SmsService smsService;
     private final UserReadService userReadService;
 
-    private JsonMapper mapper = JsonMapper.nonEmptyMapper();
-
     @Autowired
-    public UserController(SmsService smsService, UserReadService userReadService) {
-        this.smsService = smsService;
+    public UserController(UserReadService userReadService) {
         this.userReadService = userReadService;
     }
 
@@ -53,7 +48,8 @@ public class UserController {
      * @return 注册用户ID, 失败返回error msg
      */
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public Long register(String mobile, String password) {
+    public Long register(@RequestParam String mobile,
+                         @RequestParam String password) {
         return null;
     }
 
@@ -91,62 +87,6 @@ public class UserController {
                       @RequestParam(value = "loginBy") Integer loginBy) {
         return null;
     }
-
-    /**
-     * 发送短信
-     *
-     * @param mobile 手机号
-     * @return 是否发送成功
-     */
-    @RequestMapping(value = "/send_sms", method = RequestMethod.POST)
-    public Boolean sendSms(@RequestParam(value = "mobile") String mobile) {
-        checkArgument(notEmpty(mobile), "mobile.empty");
-
-        // 生成验证码
-        Map<String, String> paramMap = Maps.newHashMap();
-        String code = String.valueOf((int)((Math.random()*9+1)*1000));
-        paramMap.put("code", code);
-        paramMap.put("product", "SimpleBook(简单记账App:http://simplebook.github.io)");
-        String smsParam = mapper.toJson(paramMap);
-
-        // 设置短信模板
-        SmsModel model = new SmsModel();
-        model.setExtend("123456");
-        model.setSmsType(SmsModel.SMS_TYPE);
-        model.setSmsFreeSignName(SmsModel.SIGN_REGISTER);
-        model.setRecNum(mobile);
-        model.setSmsParam(smsParam);
-        model.setSmsTemplateCode(SmsModel.TEMPLATE_REGISTER);
-
-        // 发送短信
-        Response<Boolean> resp = smsService.sendSms(model);
-        if (!resp.isSuccess()) {
-            log.error("failed to send sms, mobile = {}", mobile);
-            return Boolean.FALSE;
-        }
-        return Boolean.TRUE;
-    }
-
-    /**
-     * 短信验证码校验
-     *
-     * @param smsCode 验证码
-     * @return 是否验证成功
-     */
-    @RequestMapping(value = "/verify")
-    public Boolean verifySmsCode(@RequestParam(value = "smsCode") String smsCode,
-                                 @RequestParam(value = "mobile") String mobile) {
-        checkArgument(notEmpty(smsCode), "smsCode.empty");
-        checkArgument(notEmpty(mobile), "mobile.empty");
-
-        Response<Boolean> resp = smsService.smsVerify(smsCode, mobile);
-        if (!resp.isSuccess()) {
-            log.error("sms code not match code = {}, mobile = {}", smsCode, mobile);
-            return Boolean.FALSE;
-        }
-        return Boolean.TRUE;
-    }
-
 
     //   the following is for test.
 
