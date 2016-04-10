@@ -1,0 +1,17 @@
+spring:
+ datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mysql?useUnicode=true&characterEncoding=UTF8
+    username: root
+    password: root
+
+mybatis:
+  mapperLocations:  classpath*:mapper/*Mapper.xml
+  typeAliasesPackage: >
+    graduation.hnust.simplebook.user.model,
+    graduation.hnust.simplebook.user.model.third,
+
+
+server:
+  port: 9000
+  context-path: /
