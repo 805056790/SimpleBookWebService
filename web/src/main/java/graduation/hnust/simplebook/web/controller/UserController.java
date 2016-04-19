@@ -11,6 +11,8 @@ import graduation.hnust.simplebook.message.sms.SmsService;
 import graduation.hnust.simplebook.user.enums.LoginType;
 import graduation.hnust.simplebook.user.model.User;
 import graduation.hnust.simplebook.user.service.UserReadService;
+import graduation.hnust.simplebook.user.service.UserWriteService;
+import io.terminus.common.exception.JsonResponseException;
 import io.terminus.pampas.common.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.terminus.common.utils.Arguments.notEmpty;
+import static io.terminus.common.utils.Arguments.notNull;
 
 /**
  * Author  : panxin
@@ -33,12 +36,10 @@ import static io.terminus.common.utils.Arguments.notEmpty;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private final UserReadService userReadService;
-
     @Autowired
-    public UserController(UserReadService userReadService) {
-        this.userReadService = userReadService;
-    }
+    private UserReadService userReadService;
+    @Autowired
+    private UserWriteService userWriteService;
 
     /**
      * 用户注册
@@ -48,9 +49,27 @@ public class UserController {
      * @return 注册用户ID, 失败返回error msg
      */
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public Long register(@RequestParam String mobile,
-                         @RequestParam String password) {
-        return null;
+    public Long register(@RequestParam(value = "mobile") String mobile,
+                         @RequestParam(value = "password") String password,
+                         @RequestParam(value = "userType") Integer userType) {
+        // 校验用户是否存在
+        Response<User> respUser = userReadService.findBy(LoginType.from(userType), mobile);
+        if (respUser.isSuccess()) {
+            log.warn("user already exists. loginType = {}, loginBy = {}, cause : {}", userType, mobile, respUser.getError());
+            throw new JsonResponseException(500, respUser.getError());
+        }
+        // 创建用户信息
+        User user = new User();
+        user.setMobile(mobile);
+        user.setPassword(password);
+        user.setStatus(1);
+        // 创建用户
+        Response<Long> resp = userWriteService.create(user);
+        if (!respUser.isSuccess()) {
+            log.warn("failed to create user({}), cause : {}", user, respUser.getError());
+            throw new JsonResponseException(500, resp.getError());
+        }
+        return resp.getResult();
     }
 
     /**
@@ -67,7 +86,7 @@ public class UserController {
 
         Response<User> resp = userReadService.findBy(LoginType.from(loginType), loginBy);
         if (resp.isSuccess()) {
-            log.warn("user already exists. loginType = {}, loginBy = {}", loginType, loginBy);
+            log.warn("user already exists. loginType = {}, loginBy = {}, cause : {}", loginType, loginBy, resp.getError());
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -76,19 +95,29 @@ public class UserController {
     /**
      * 用户登录
      *
-     * @param userName 用户名
+     * @param loginBy 用户名
      * @param password 密码
-     * @param loginBy 登录类型(用户名, 手机, 邮箱)
+     * @param loginType 登录类型(用户名, 手机, 邮箱)
      * @return 登录用户信息
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public User login(@RequestParam(value = "userName") String userName,
+    public User login(@RequestParam(value = "loginBy") String loginBy,
                       @RequestParam(value = "password") String password,
-                      @RequestParam(value = "loginBy") Integer loginBy) {
-        return null;
-    }
+                      @RequestParam(value = "loginType") Integer loginType) {
+        // 数据校验
+        checkArgument(notEmpty(loginBy), "user.userName.is.empty");
+        checkArgument(notEmpty(password), "user.password.is.empty");
+        checkArgument(notNull(loginType), "user.login.type.is.empty");
 
-    //   the following is for test.
+        // 登录
+        Response<User> resp = userReadService.login(loginBy, password, loginType);
+        if (!resp.isSuccess()) {
+            log.error("failed to login by user(loginBy = {}, password = {}, loginType = {}), cause: {}",
+                    loginBy, password, loginType, resp.getError());
+            throw new JsonResponseException(500, resp.getError());
+        }
+        return resp.getResult();
+    }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test(){
