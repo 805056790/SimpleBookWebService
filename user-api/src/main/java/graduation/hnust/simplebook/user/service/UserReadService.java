@@ -48,4 +48,14 @@ public interface UserReadService {
      */
     Response<User> findByQqOpenId(String openId);
 
+    /**
+     * 用户登录, 现检测用户名是否已存在, 在判断密码是否相等
+     *
+     * @param loginBy 登录名
+     * @param password 密码
+     * @param loginType 登录类型
+     * @return 用户信息
+     */
+    Response<User> login(String loginBy, String password, Integer loginType);
+
 }

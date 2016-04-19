@@ -21,8 +21,8 @@ public class UserWriteServiceImpl implements UserWriteService {
     private UserDao userDao;
 
     @Autowired
-    public UserWriteServiceImpl(UserDao userMapper) {
-        this.userDao = userMapper;
+    public UserWriteServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override

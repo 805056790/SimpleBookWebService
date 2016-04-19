@@ -4,6 +4,8 @@
 
 package graduation.hnust.simplebook.user.service;
 
+import com.google.common.base.Throwables;
+import graduation.hnust.simplebook.common.core.Encrypt;
 import graduation.hnust.simplebook.user.dao.UserDao;
 import graduation.hnust.simplebook.user.enums.LoginType;
 import graduation.hnust.simplebook.user.model.User;
@@ -24,8 +26,8 @@ public class UserReadServiceImpl implements UserReadService{
     private UserDao userDao;
 
     @Autowired
-    public UserReadServiceImpl(UserDao userMapper) {
-        this.userDao = userMapper;
+    public UserReadServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
@@ -54,17 +56,48 @@ public class UserReadServiceImpl implements UserReadService{
 
     @Override
     public Response<User> findById(Long id) {
-
-        return null;
+        User user = null;
+        try{
+            user = userDao.findById(id);
+        } catch (Exception e) {
+            log.error("failed to find user by userId = {}, cause = {}", id, Throwables.getStackTraceAsString(e));
+            return Response.fail("user.found.failed");
+        }
+        return Response.ok(user);
     }
 
     @Override
     public Response<User> findByQqToken(String qqToken) {
+        // TODO
         return null;
     }
 
     @Override
     public Response<User> findByQqOpenId(String openId) {
+        // TODO
         return null;
+    }
+
+    @Override
+    public Response<User> login(String loginBy, String password, Integer loginType) {
+        Response<User> respUser = null;
+        try{
+            // 检测用户是否存在
+            respUser = this.findBy(LoginType.from(loginType), loginBy);
+
+            // 判断用户状态是否可用
+            // TODO switch (respUser.getResult().getStatus())
+
+            // 判断密码是否匹配
+            if (!Encrypt.match(password, respUser.getResult().getPassword())) {
+                log.error("user(loginBy = {}, loginType = {})'s password mismatch, login failed.", loginBy, loginType );
+                return Response.fail("user.password.mismatch");
+            }
+        } catch (Exception e) {
+            log.error("failed to login, loginBy = {}, password = {}, loginType {}, cause : {}",
+                    loginBy, password, loginType, Throwables.getStackTraceAsString(e));
+            return Response.fail("user.login.failed");
+        }
+        return respUser;
     }
 }
