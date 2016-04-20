@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -51,12 +53,14 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Long register(@RequestParam(value = "mobile") String mobile,
                          @RequestParam(value = "password") String password,
-                         @RequestParam(value = "userType") Integer userType) {
+                         @RequestParam(value = "userType") Integer userType,
+                         HttpServletRequest request,
+                         HttpServletResponse response) {
         // 校验用户是否存在
         Response<User> respUser = userReadService.findBy(LoginType.from(userType), mobile);
         if (respUser.getResult() != null) {
-            log.warn("user already exists. loginType = {}, loginBy = {}, cause : {}", userType, mobile, respUser.getError());
-            throw new JsonResponseException(500, respUser.getError());
+            log.warn("user already exists. loginType = {}, loginBy = {}.", userType, mobile);
+            throw new JsonResponseException("user.already.exists");
         }
         // 创建用户信息
         User user = new User();
@@ -86,7 +90,7 @@ public class UserController {
 
         Response<User> resp = userReadService.findBy(LoginType.from(loginType), loginBy);
         if (resp.getResult() != null) {
-            log.warn("user already exists. loginType = {}, loginBy = {}, cause : {}", loginType, loginBy, resp.getError());
+            log.warn("user already exists. loginType = {}, loginBy = {}", loginType, loginBy);
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
