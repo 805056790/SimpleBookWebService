@@ -20,20 +20,20 @@ public class UserDao extends MyBatisDao<User> {
 
     /**
      * 通过手机查找
-     * @param loginBy 账号
+     * @param mobile 账号
      * @return 用户信息
      */
-    public User findByMobile(String loginBy) {
-        return getSqlSession().selectOne(sqlId("findByMobile"), loginBy);
+    public User findByMobile(String mobile) {
+        return getSqlSession().selectOne(sqlId("findByMobile"), mobile);
     }
 
     /**
      * 通过邮箱查找
-     * @param loginBy 账号
+     * @param email 账号
      * @return 用户信息
      */
-    public User findByEmail(String loginBy) {
-        return getSqlSession().selectOne(sqlId("findByEmail"), loginBy);
+    public User findByEmail(String email) {
+        return getSqlSession().selectOne(sqlId("findByEmail"), email);
     }
 
     /**

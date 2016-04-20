@@ -48,13 +48,13 @@ public class UserController {
      * @param password 密码
      * @return 注册用户ID, 失败返回error msg
      */
-    @RequestMapping(value = "register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Long register(@RequestParam(value = "mobile") String mobile,
                          @RequestParam(value = "password") String password,
                          @RequestParam(value = "userType") Integer userType) {
         // 校验用户是否存在
         Response<User> respUser = userReadService.findBy(LoginType.from(userType), mobile);
-        if (respUser.isSuccess()) {
+        if (respUser.getResult() != null) {
             log.warn("user already exists. loginType = {}, loginBy = {}, cause : {}", userType, mobile, respUser.getError());
             throw new JsonResponseException(500, respUser.getError());
         }
@@ -100,7 +100,7 @@ public class UserController {
      * @param loginType 登录类型(用户名, 手机, 邮箱)
      * @return 登录用户信息
      */
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public User login(@RequestParam(value = "loginBy") String loginBy,
                       @RequestParam(value = "password") String password,
                       @RequestParam(value = "loginType") Integer loginType) {

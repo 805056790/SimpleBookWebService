@@ -59,13 +59,13 @@
     <select id="findByMobile" parameterType="string" resultMap="UserMap" >
         SELECT <include refid="cols_all" />
         FROM <include refid="tb" />
-        WHERE id = #{id}
+        WHERE mobile = #{mobile}
     </select>
 
     <select id="findByEmail" parameterType="string" resultMap="UserMap" >
         SELECT <include refid="cols_all" />
         FROM <include refid="tb" />
-        WHERE id = #{id}
+        WHERE email = #{email}
     </select>
 
     <update id="update" parameterType="User">
