@@ -1,0 +1,17 @@
+spring:
+ datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://115.159.186.200:3306/test?useUnicode=true&characterEncoding=UTF8
+    username: root
+    password: panxin
+
+# dubbo
+dubbo:
+  name: user-service
+  registry: zookeeper://127.0.0.1:2181
+  version: 1.0.0
+
+# zookeeper
+zookeeper:
+  host: 127.0.0.1
+  port: 2181

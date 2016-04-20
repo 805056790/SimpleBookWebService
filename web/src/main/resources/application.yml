@@ -1,0 +1,17 @@
+spring:
+ datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://23.83.232.26:3306/hnust_graduation?useUnicode=true&characterEncoding=UTF8
+    username: root
+    password: panxin
+
+mybatis:
+  mapperLocations:  classpath*:mapper/*Mapper.xml
+  typeAliasesPackage: >
+    graduation.hnust.simplebook.user.model,
+    graduation.hnust.simplebook.user.model.third,
+
+
+server:
+  port: 9000
+  context-path: /

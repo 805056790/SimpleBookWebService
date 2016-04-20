@@ -37,4 +37,4 @@ dev.properties
 dependency-reduced-pom.xml
 *.rdb
 log/
-application.yml
+#application.yml
