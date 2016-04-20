@@ -6,10 +6,10 @@ spring:
     password: panxin
 
 mybatis:
-  mapperLocations:  classpath*:mapper/*Mapper.xml
-  typeAliasesPackage: >
-    graduation.hnust.simplebook.user.model,
-    graduation.hnust.simplebook.user.model.third
+  mapper-locations: classpath*:mapper/UserMapper.xml
+  type-aliases-package: graduation.hnust.simplebook.user.model
+
+#graduation.hnust.simplebook.user.model.third
 
 
 server:
