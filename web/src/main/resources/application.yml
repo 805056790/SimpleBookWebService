@@ -9,7 +9,7 @@ mybatis:
   mapperLocations:  classpath*:mapper/*Mapper.xml
   typeAliasesPackage: >
     graduation.hnust.simplebook.user.model,
-    graduation.hnust.simplebook.user.model.third,
+    graduation.hnust.simplebook.user.model.third
 
 
 server:
