@@ -85,7 +85,7 @@ public class UserController {
         checkArgument(notEmpty(loginBy), "login.by.empty");
 
         Response<User> resp = userReadService.findBy(LoginType.from(loginType), loginBy);
-        if (resp.isSuccess()) {
+        if (resp.getResult() != null) {
             log.warn("user already exists. loginType = {}, loginBy = {}, cause : {}", loginType, loginBy, resp.getError());
             return Boolean.TRUE;
         }
