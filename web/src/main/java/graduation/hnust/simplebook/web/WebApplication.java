@@ -13,7 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
  * Date    : 8:20 PM 3/26/16
  */
 @SpringBootApplication
-@ComponentScan({"graduation.hnust.simplebook"})
 public class WebApplication {
 
     /**
