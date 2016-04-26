@@ -4,7 +4,12 @@
 
 package graduation.hnust.simplebook.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import graduation.hnust.simplebook.common.RespBody;
+import graduation.hnust.simplebook.common.ResponseHelper;
 import graduation.hnust.simplebook.common.core.JsonMapper;
 import graduation.hnust.simplebook.message.sms.SmsModel;
 import graduation.hnust.simplebook.message.sms.SmsService;
@@ -16,6 +21,7 @@ import io.terminus.common.exception.JsonResponseException;
 import io.terminus.pampas.common.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -105,22 +112,46 @@ public class UserController {
      * @return 登录用户信息
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public User login(@RequestParam(value = "loginBy") String loginBy,
-                      @RequestParam(value = "password") String password,
-                      @RequestParam(value = "loginType") Integer loginType) {
+    public String login(@RequestParam(value = "loginBy") String loginBy,
+                        @RequestParam(value = "password") String password,
+                        @RequestParam(value = "loginType") Integer loginType) throws JsonProcessingException {
         // 数据校验
         checkArgument(notEmpty(loginBy), "user.userName.is.empty");
         checkArgument(notEmpty(password), "user.password.is.empty");
         checkArgument(notNull(loginType), "user.login.type.is.empty");
+
+        Map<String, Object> map = Maps.newHashMap();
 
         // 登录
         Response<User> resp = userReadService.login(loginBy, password, loginType);
         if (!resp.isSuccess()) {
             log.error("failed to login by user(loginBy = {}, password = {}, loginType = {}), cause: {}",
                     loginBy, password, loginType, resp.getError());
-            throw new JsonResponseException(500, resp.getError());
+            map.put("result", false);
+            map.put("msg", resp.getError());
+            return null;
         }
-        return resp.getResult();
+        ObjectMapper mapper = new ObjectMapper();
+
+        map.put("result", true);
+        map.put("msg", mapper.writeValueAsString(resp.getResult()));
+
+        List<String> list = Lists.newArrayList();
+        list.add(Boolean.TRUE.toString());
+        list.add(mapper.writeValueAsString(resp.getResult()));
+
+//        list.add(map);
+
+        log.info(mapper.writeValueAsString(map));
+
+        RespBody respBody = new RespBody();
+        respBody.setResult(true);
+        respBody.setMsg(mapper.writeValueAsString(resp.getResult()));
+
+        //return mapper.writeValueAsString(map);
+        //return respBody;
+        return mapper.writeValueAsString(respBody);
+        //return mapper.writeValueAsString(resp.getResult());
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
@@ -134,3 +165,6 @@ public class UserController {
     }
 
 }
+
+
+// [{"result":true}, {"id":1,"userName":null,"mobile":"18673231309","email":null,"password":"8a6f@8743baaa03a033a7d83c","status":1,"weixinToken":null,"weiboToken":null,"nickname":null,"type":null,"gender":null,"birthday":null,"image":null,"createdAt":1461117173000,"updatedAt":1461117173000,"qqToken":null}]
