@@ -14,8 +14,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * Author  : panxin109@gmail.com
  * Date    : 12:25 AM 4/27/16
  */
-@EnableWebMvc
-@Configuration
-@Import({UserAutoConfiguration.class, MessageAutoConfiguration.class})
+//@EnableWebMvc
+//@Configuration
+//@Import({UserAutoConfiguration.class, MessageAutoConfiguration.class})
 public class WebAutoConfiguration {
 }
