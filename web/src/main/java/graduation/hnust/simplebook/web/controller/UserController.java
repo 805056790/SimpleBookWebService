@@ -144,13 +144,13 @@ public class UserController {
 
         log.info(mapper.writeValueAsString(map));
 
-        RespBody respBody = new RespBody();
-        respBody.setResult(true);
-        respBody.setMsg(mapper.writeValueAsString(resp.getResult()));
+//        RespBody respBody = new RespBody();
+//        respBody.setResult(true);
+//        respBody.setMsg(mapper.writeValueAsString(resp.getResult()));
 
         //return mapper.writeValueAsString(map);
         //return respBody;
-        return mapper.writeValueAsString(respBody);
+        return mapper.writeValueAsString(resp.getResult());
         //return mapper.writeValueAsString(resp.getResult());
     }
 
