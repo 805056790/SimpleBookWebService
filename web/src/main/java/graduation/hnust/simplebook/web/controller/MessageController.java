@@ -67,8 +67,10 @@ public class MessageController {
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         String key = REDIS_KEY + mobile;
         if (!redisTemplate.hasKey(key)) {
+            log.info("redis key was not exists, key = {}", key);
             ops.set(key, code);
         }else {
+            log.info("redis key was already exists and will be reset, key = {}", key);
             ops.getAndSet(key, code);
         }
 
@@ -117,6 +119,7 @@ public class MessageController {
                 return Boolean.TRUE;
             }
         }
+        log.info("key was not exists key = {}", key);
         return Boolean.FALSE;
     }
 }
