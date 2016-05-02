@@ -109,7 +109,10 @@ public class MessageController {
 
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         String key = REDIS_KEY + mobile;
-        if(! redisTemplate.hasKey(key)) {
+        log.info("start to verify smsCode = {}, mobile = {}", smsCode, mobile);
+
+        if(redisTemplate.hasKey(key)) {
+            log.info("key was already exists key = {}", key);
             if (Objects.equal(smsCode, ops.get(key))) {
                 return Boolean.TRUE;
             }
