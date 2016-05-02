@@ -4,6 +4,7 @@
 
 package graduation.hnust.simplebook.web.controller;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import graduation.hnust.simplebook.common.core.JsonMapper;
 import graduation.hnust.simplebook.message.sms.SmsModel;
@@ -11,6 +12,8 @@ import graduation.hnust.simplebook.message.sms.SmsService;
 import io.terminus.pampas.common.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +38,11 @@ public class MessageController {
     private JsonMapper mapper = JsonMapper.nonEmptyMapper();
 
     @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    private static final String REDIS_KEY = "redis.sms.code";
+
+    @Autowired
     public MessageController(SmsService smsService) {
         this.smsService = smsService;
     }
@@ -55,6 +63,14 @@ public class MessageController {
         paramMap.put("code", code);
         paramMap.put("product", "SimpleBook(简单记账App:http://simplebook.github.io)");
         String smsParam = mapper.toJson(paramMap);
+
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+        String key = REDIS_KEY + mobile;
+        if (!redisTemplate.hasKey(key)) {
+            ops.set(key, code);
+        }else {
+            ops.getAndSet(key, code);
+        }
 
         // 设置短信模板
         SmsModel model = new SmsModel();
@@ -85,12 +101,19 @@ public class MessageController {
                                  @RequestParam(value = "mobile") String mobile) {
         checkArgument(notEmpty(smsCode), "smsCode.empty");
         checkArgument(notEmpty(mobile), "mobile.empty");
+        // Response<Boolean> resp = smsService.smsVerify(smsCode, mobile);
+        //if (!resp.isSuccess()) {
+        //    log.error("sms code not match code = {}, mobile = {}", smsCode, mobile);
+        //    return Boolean.FALSE;
+        //}
 
-        Response<Boolean> resp = smsService.smsVerify(smsCode, mobile);
-        if (!resp.isSuccess()) {
-            log.error("sms code not match code = {}, mobile = {}", smsCode, mobile);
-            return Boolean.FALSE;
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+        String key = REDIS_KEY + mobile;
+        if(! redisTemplate.hasKey(key)) {
+            if (Objects.equal(smsCode, ops.get(key))) {
+                return Boolean.TRUE;
+            }
         }
-        return Boolean.TRUE;
+        return Boolean.FALSE;
     }
 }
