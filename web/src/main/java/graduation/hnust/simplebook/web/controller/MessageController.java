@@ -114,8 +114,9 @@ public class MessageController {
         log.info("start to verify smsCode = {}, mobile = {}", smsCode, mobile);
 
         if(redisTemplate.hasKey(key)) {
-            log.info("key was already exists key = {}", key);
-            if (Objects.equal(smsCode, ops.get(key))) {
+            String value = ops.get(key);
+            log.info("key was already exists key = {}, value = {}", key, value);
+            if (Objects.equal(smsCode, value)) {
                 return Boolean.TRUE;
             }
         }
