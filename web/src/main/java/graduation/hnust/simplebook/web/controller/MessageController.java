@@ -117,7 +117,11 @@ public class MessageController {
             String value = ops.get(key);
             log.info("key was already exists key = {}, value = {}", key, value);
             if (Objects.equal(smsCode, value)) {
+                log.warn("redis value is equal with smsCode = {}", smsCode);
                 return Boolean.TRUE;
+            }else {
+                log.warn("redis value is not equal with smsCode = {}", smsCode);
+                return Boolean.FALSE;
             }
         }
         log.info("key was not exists key = {}", key);
