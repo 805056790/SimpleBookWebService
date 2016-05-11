@@ -40,7 +40,7 @@ public class BookController {
      * @return 是否同步成功
      */
     @RequestMapping(value = "/sync", method = RequestMethod.POST)
-    public Boolean uploadSyncItem(@RequestParam("itemJson") String itemJson,
+    public String uploadSyncItem(@RequestParam("itemJson") String itemJson,
                                   @RequestParam("userName") String userName) {
 
         log.info("userName = {}, item json = {}", userName, itemJson);
@@ -52,7 +52,7 @@ public class BookController {
 //            return Boolean.FALSE;
 //        }
 //        return resp.getResult();
-        return null;
+        return "sync.success";
     }
 
     // public String get
