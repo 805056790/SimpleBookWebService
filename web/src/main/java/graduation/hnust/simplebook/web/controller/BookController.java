@@ -25,11 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/book")
 public class BookController {
 
-    @Autowired
-    private ItemReadService itemReadService;
-
-    @Autowired
-    private ItemWriteService itemWriteService;
+//    @Autowired
+//    private ItemReadService itemReadService;
+//
+//    @Autowired
+//    private ItemWriteService itemWriteService;
 
     private static JsonMapper MAPPER = JsonMapper.JSON_NON_DEFAULT_MAPPER;
 
