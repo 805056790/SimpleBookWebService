@@ -23,7 +23,7 @@ public class Item implements Serializable{
 
     private Long id;
     private Long userId;
-    private String userName;
+    // private String userName;
     private Long bookId;
     private Integer type;
     private Integer status;
