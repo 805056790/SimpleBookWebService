@@ -2,20 +2,22 @@
 
 CREATE TABLE IF NOT EXISTS `items` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-    `user_id`  BIGINT(20)  NULL,
-    `book_id`  BIGINT(20)  NULL,
-    `type`  BIGINT(20)  NULL,
-    `status`  BIGINT(20)  NULL,
-    `image`  VARCHAR(512)  NULL,
-    `date`  DATETIME  NULL,
-    `note`  VARCHAR(512)  NULL,
-    `consume_type`  BIGINT(20)  NULL,
-    `amount`  BIGINT(20)  NULL,
-    `longitude`  VARCHAR(512)  NULL,
-    `latitude`  VARCHAR(512)  NULL,
-    `created_at`  DATETIME  NULL,
-    `updated_at`  DATETIME  NULL,
-    PRIMARY KEY (`id`)
+  `user_id`  BIGINT(20)  NULL,
+  `book_id`  BIGINT(20)  NULL,
+  `type`  BIGINT(20)  NULL,
+  `status`  BIGINT(20)  NULL,
+  `image`  VARCHAR(512)  NULL,
+  `image_id` BIGINT(20) NULL,
+  `date`  DATETIME  NULL,
+  `note`  VARCHAR(512)  NULL,
+  `consume_type`  BIGINT(20)  NULL,
+  `consume_type_name`  BIGINT(20)  NULL,
+  `amount`  BIGINT(20)  NULL,
+  `longitude`  VARCHAR(512)  NULL,
+  `latitude`  VARCHAR(512)  NULL,
+  `created_at`  DATETIME  NULL,
+  `updated_at`  DATETIME  NULL,
+  PRIMARY KEY (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `account_reminds` (
@@ -57,7 +59,9 @@ CREATE TABLE IF NOT EXISTS `consume_types` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name`  VARCHAR(512)  NULL,
   `status`  BIGINT(20)  NULL,
-  `image`  VARCHAR(512)  NULL,
+  `type` BIGINT(20) NULL,
+  `image_id` BIGINT(20),
+  `image_name`  VARCHAR(512)  NULL,
   `created_at`  DATETIME  NULL,
   `updated_at`  DATETIME  NULL,
   PRIMARY KEY (`id`)

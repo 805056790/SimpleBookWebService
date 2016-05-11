@@ -103,11 +103,6 @@ public class MessageController {
                                  @RequestParam(value = "mobile") String mobile) {
         checkArgument(notEmpty(smsCode), "smsCode.empty");
         checkArgument(notEmpty(mobile), "mobile.empty");
-        // Response<Boolean> resp = smsService.smsVerify(smsCode, mobile);
-        //if (!resp.isSuccess()) {
-        //    log.error("sms code not match code = {}, mobile = {}", smsCode, mobile);
-        //    return Boolean.FALSE;
-        //}
 
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         String key = REDIS_KEY + mobile;

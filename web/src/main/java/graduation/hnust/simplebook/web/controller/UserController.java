@@ -6,6 +6,7 @@ package graduation.hnust.simplebook.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graduation.hnust.simplebook.common.core.JsonMapper;
+import graduation.hnust.simplebook.user.dto.UserDto;
 import graduation.hnust.simplebook.user.enums.LoginType;
 import graduation.hnust.simplebook.user.model.User;
 import graduation.hnust.simplebook.user.service.UserReadService;
@@ -125,17 +126,21 @@ public class UserController {
         return JSON_MAPPER.toJson(resp.getResult());
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test(){
-        return "hello";
-    }
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public User test2(){
-        return userReadService.findById(1L).getResult();
+    /**
+     * 创建用户信息
+     *
+     * @param dtoJson 用户信息JSON
+     * @return ID
+     */
+    @RequestMapping(value = "/create_user_dto", method = RequestMethod.POST)
+    public Long createUserDto(String dtoJson) {
+        UserDto userDto = JSON_MAPPER.fromJson(dtoJson, UserDto.class);
+        Response<Long> resp =  userWriteService.create(userDto);
+        if (!resp.isSuccess()) {
+            log.warn("failed to create user({}), cause : {}", userDto, resp.getError());
+            throw new JsonResponseException(500, resp.getError());
+        }
+        return resp.getResult();
     }
 
 }
-
-
-// [{"result":true}, {"id":1,"userName":null,"mobile":"18673231309","email":null,"password":"8a6f@8743baaa03a033a7d83c","status":1,"weixinToken":null,"weiboToken":null,"nickname":null,"type":null,"gender":null,"birthday":null,"image":null,"createdAt":1461117173000,"updatedAt":1461117173000,"qqToken":null}]

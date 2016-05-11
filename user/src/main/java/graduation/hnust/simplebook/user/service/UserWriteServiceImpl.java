@@ -7,6 +7,7 @@ package graduation.hnust.simplebook.user.service;
 import com.google.common.base.Throwables;
 import graduation.hnust.simplebook.common.core.Encrypt;
 import graduation.hnust.simplebook.user.dao.UserDao;
+import graduation.hnust.simplebook.user.dto.UserDto;
 import graduation.hnust.simplebook.user.model.User;
 import io.terminus.pampas.common.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +54,11 @@ public class UserWriteServiceImpl implements UserWriteService {
 
     @Override
     public Response<Boolean> deleteById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Response<Long> create(UserDto userDto) {
         return null;
     }
 }

@@ -10,13 +10,16 @@
     <resultMap id="ItemMap" type="Item">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
         <result column="book_id" property="bookId"/>
         <result column="type" property="type"/>
         <result column="status" property="status"/>
         <result column="image" property="image"/>
+        <result column="image_id" property="imageId"/>
         <result column="date" property="date"/>
         <result column="note" property="note"/>
         <result column="consume_type" property="consumeType"/>
+        <result column="consume_type_name" property="consumeTypeName"/>
         <result column="amount" property="amount"/>
         <result column="longitude" property="longitude"/>
         <result column="latitude" property="latitude"/>
@@ -78,6 +81,12 @@
         DELETE FROM <include refid="tb"/>
         WHERE id = #{id}
     </delete>
+
+    <select id="findByUserId" parameterType="long" resultMap="ItemMap" >
+        SELECT <include refid="cols_all" />
+        FROM <include refid="tb" />
+        WHERE user_id = #{userId}
+    </select>
 
 
 </mapper>

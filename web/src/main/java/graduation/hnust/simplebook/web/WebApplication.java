@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan({"graduation.hnust.simplebook.web",
         "graduation.hnust.simplebook.user",
+        "graduation.hnust.simplebook.book",
         "graduation.hnust.simplebook.message",
         "graduation.hnust.simplebook.common"})
 public class WebApplication {
