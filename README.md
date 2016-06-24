@@ -22,5 +22,5 @@ this is a web service.
 
 # env
 - Cent os 6 x86
-- Mac OS 10.11.4
+- Mac OS X 10.11.4
 - IntelliJ IDEA

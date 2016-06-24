@@ -20,11 +20,6 @@ import org.springframework.context.annotation.ComponentScan;
         "graduation.hnust.simplebook.common"})
 public class WebApplication {
 
-    /**
-     * To start spring boot application
-     *
-     * @param args args
-     */
     public static void main(String[] args) {
         SpringApplication.run(WebApplication.class, args);
     }

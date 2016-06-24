@@ -48,25 +48,25 @@ public class UserController {
     /**
      * 用户注册
      *
-     * @param mobile 手机号
+     * @param loginBy 手机号
      * @param password 密码
      * @return 注册用户ID, 失败返回error msg
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Long register(@RequestParam(value = "mobile") String mobile,
+    public Long register(@RequestParam(value = "loginBy") String loginBy,
                          @RequestParam(value = "password") String password,
                          @RequestParam(value = "userType") Integer userType,
                          HttpServletRequest request,
                          HttpServletResponse response) {
         // 校验用户是否存在
-        Response<User> respUser = userReadService.findBy(LoginType.from(userType), mobile);
+        Response<User> respUser = userReadService.findBy(LoginType.from(userType), loginBy);
         if (respUser.getResult() != null) {
-            log.warn("user already exists. loginType = {}, loginBy = {}.", userType, mobile);
+            log.warn("user already exists. loginType = {}, loginBy = {}.", userType, loginBy);
             throw new JsonResponseException("user.already.exists");
         }
         // 创建用户信息
         User user = new User();
-        user.setMobile(mobile);
+        user.setMobile(loginBy);
         user.setPassword(password);
         user.setStatus(1);
         // 创建用户

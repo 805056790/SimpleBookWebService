@@ -7,10 +7,9 @@ spring:
 
 mybatis:
   mapperLocations: classpath*:mapper/UserMapper.xml
-  typeAliasesPackage: graduation.hnust.simplebook.user.model
-
-#graduation.hnust.simplebook.user.model.third
-
+  typeAliasesPackage: >
+      graduation.hnust.simplebook.user.model,
+      graduation.hnust.simplebook.book.model
 
 server:
   port: 9000
